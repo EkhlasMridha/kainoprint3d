@@ -1,0 +1,225 @@
+// Kaino Print 3D data model.
+// Money columns are integer poisha (1 BDT = 100 poisha). Timestamps are stored in UTC.
+// SQLite is used for zero-ops local/small deployments; switch `provider` to "postgresql"
+// and regenerate migrations to run on PostgreSQL (see docs/DEPLOYMENT.md).
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  name         String
+  passwordHash String
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  sessions     Session[]
+}
+
+model Session {
+  /// SHA-256 hash of the session token; the raw token only lives in the httpOnly cookie.
+  id        String    @id
+  userId    String
+  user      AdminUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+}
+
+model Printer {
+  id                        String            @id @default(cuid())
+  name                      String
+  model                     String            @default("")
+  purchasePrice             Int
+  residualValue             Int               @default(0)
+  lifetimeHours             Float
+  monthlyProductiveHours    Float
+  averagePowerWatts         Float
+  electricityRatePerKwh     Int
+  maintenanceMethod         String            @default("per_hour")
+  maintenancePerHour        Int               @default(0)
+  maintenanceMonthly        Int               @default(0)
+  nozzleCost                Int               @default(0)
+  nozzleLifeHours           Float             @default(0)
+  otherConsumablesPerHour   Int               @default(0)
+  failureRate               Float             @default(0)
+  additionalOverheadMonthly Int               @default(0)
+  active                    Boolean           @default(true)
+  notes                     String            @default("")
+  createdAt                 DateTime          @default(now())
+  updatedAt                 DateTime          @updatedAt
+  calculations              CostCalculation[]
+}
+
+model Material {
+  id                   String            @id @default(cuid())
+  name                 String
+  brand                String            @default("")
+  category             String            @default("PLA")
+  color                String            @default("")
+  supplier             String            @default("")
+  purchasePrice        Int
+  spoolWeightGrams     Float
+  netUsableGrams       Float?
+  handlingCostPerSpool Int               @default(0)
+  failureRate          Float             @default(0)
+  wasteAllowancePct    Float             @default(0)
+  active               Boolean           @default(true)
+  notes                String            @default("")
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  calculations         CostCalculation[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  description String    @default("")
+  sortOrder   Int       @default(0)
+  products    Product[]
+}
+
+model Product {
+  id                    String            @id @default(cuid())
+  slug                  String            @unique
+  name                  String
+  categoryId            String
+  category              Category          @relation(fields: [categoryId], references: [id])
+  shortDescription      String
+  description           String
+  material              String            @default("PLA")
+  dimensions            String            @default("")
+  /// Public starting price.
+  basePrice             Int
+  /// PRIVATE minimum sustainable unit price — never sent to the browser.
+  minUnitPrice          Int               @default(0)
+  /// [{ key, label, dimensions, priceDelta }] — the product's variants.
+  sizeOptions           Json
+  /// [{ key, label, priceDelta }]
+  materialOptions       Json
+  /// ["Black", "White", ...]
+  colors                Json
+  /// [{ key, label, type, maxLength, options, required, price }]
+  personalization       Json
+  /// [{ src, alt }]
+  images                Json
+  leadTimeMinDays       Int               @default(3)
+  leadTimeMaxDays       Int               @default(5)
+  /// made_to_order | limited | unavailable
+  availability          String            @default("made_to_order")
+  allowQuantityDiscount Boolean           @default(true)
+  maxQuantity           Int               @default(200)
+  featured              Boolean           @default(false)
+  published             Boolean           @default(true)
+  /// Seeded placeholder content the owner should replace.
+  isSample              Boolean           @default(false)
+  sortOrder             Int               @default(0)
+  createdAt             DateTime          @default(now())
+  updatedAt             DateTime          @updatedAt
+  calculations          CostCalculation[]
+  quotes                QuoteRequest[]
+
+  @@index([categoryId])
+}
+
+model CostCalculation {
+  id                   String          @id @default(cuid())
+  name                 String
+  productId            String?
+  product              Product?        @relation(fields: [productId], references: [id], onDelete: SetNull)
+  printerId            String?
+  printer              Printer?        @relation(fields: [printerId], references: [id], onDelete: SetNull)
+  materialId           String?
+  material             Material?       @relation(fields: [materialId], references: [id], onDelete: SetNull)
+  /// JobInput as entered.
+  input                Json
+  /// Printer, material and costing settings exactly as used (audit trail).
+  snapshot             Json
+  /// Full CostResult + PricingResult.
+  result               Json
+  quantity             Int
+  totalBatchCost       Int
+  unitCost             Int
+  minimumPrice         Int
+  standardPrice        Int
+  premiumPrice         Int
+  /// minimum | standard | premium | custom
+  chosenTier           String          @default("standard")
+  chosenPrice          Int
+  profitPerItem        Int
+  margin               Float
+  markup               Float
+  totalGrams           Float
+  machineHours         Float
+  laborHours           Float
+  /// Planned monthly sales volume, used for dashboard projections.
+  expectedMonthlyUnits Int             @default(0)
+  notes                String          @default("")
+  createdAt            DateTime        @default(now())
+  updatedAt            DateTime        @updatedAt
+  components           CostComponent[]
+
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model CostComponent {
+  id            String          @id @default(cuid())
+  calculationId String
+  calculation   CostCalculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+  key           String
+  label         String
+  amount        Int
+  formula       String
+  sortOrder     Int
+
+  @@index([calculationId])
+}
+
+/// Owner-editable configuration blobs (costing settings, pricing rules, estimator presets,
+/// contact details, landing-page copy). Each key is validated by a Zod schema on read and write.
+model Setting {
+  key       String   @id
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model QuoteRequest {
+  id             String   @id @default(cuid())
+  reference      String   @unique
+  /// product | keychain | organizer | custom_file | general
+  kind           String
+  status         String   @default("new")
+  customerName   String
+  email          String   @default("")
+  phone          String   @default("")
+  title          String
+  /// { summary: [{label, value}], input: {...} } — server-recomputed configuration.
+  configuration  Json
+  quantity       Int
+  estimateLow    Int?
+  estimateHigh   Int?
+  estimateTotal  Int?
+  notes          String   @default("")
+  fileName       String?
+  fileStoredName String?
+  fileSize       Int?
+  fileMime       String?
+  finalPrice     Int?
+  adminNotes     String   @default("")
+  productId      String?
+  product        Product? @relation(fields: [productId], references: [id], onDelete: SetNull)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}

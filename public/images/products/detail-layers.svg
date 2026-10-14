@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Close-up of 3D printed layer lines">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3a3a"/><stop offset="1" stop-color="#121212"/></linearGradient>
+    <pattern id="layers" width="800" height="12" patternUnits="userSpaceOnUse">
+      <rect width="800" height="12" fill="url(#g)"/>
+      <rect y="0" width="800" height="3" fill="#fff" fill-opacity=".08"/>
+      <rect y="9" width="800" height="3" fill="#000" fill-opacity=".25"/>
+    </pattern>
+  </defs>
+  <rect width="800" height="800" fill="#1b1b1b"/>
+  <path d="M0 160 C 200 120, 600 220, 800 170 L800 800 L0 800 Z" fill="url(#layers)"/>
+  <path d="M0 160 C 200 120, 600 220, 800 170" fill="none" stroke="#fff" stroke-opacity=".25" stroke-width="3"/>
+  <text x="48" y="96" font-family="Courier New, monospace" font-size="24" letter-spacing="5" fill="#9a9a96">0.16 MM LAYERS · CLOSE-UP</text>
+</svg>

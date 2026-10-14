@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Hexagon pen cup mockup">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="85%"><stop offset="0" stop-color="#f4f4f1"/><stop offset="1" stop-color="#e0e0dc"/></radialGradient>
+    <pattern id="layers" width="8" height="4" patternUnits="userSpaceOnUse"><rect width="8" height="1.2" fill="#000" fill-opacity=".09"/></pattern>
+    <filter id="sh" x="-30%" y="-20%" width="160%" height="150%"><feDropShadow dx="0" dy="22" stdDeviation="18" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <!-- pencils -->
+  <rect x="330" y="120" width="22" height="300" rx="4" fill="#f2c200" transform="rotate(-12 341 270)"/>
+  <rect x="388" y="100" width="18" height="320" rx="9" fill="#1b1b1b" transform="rotate(4 397 260)"/>
+  <rect x="440" y="140" width="22" height="280" rx="4" fill="#2e7d32" transform="rotate(14 451 280)"/>
+  <g filter="url(#sh)">
+    <path d="M250 300 L330 260 L470 260 L550 300 L470 340 L330 340 Z" fill="#545450"/>
+    <path d="M250 300 L330 340 L330 640 L250 600 Z" fill="#8b8b86"/>
+    <path d="M330 340 L470 340 L470 640 L330 640 Z" fill="#a6a6a1"/>
+    <path d="M470 340 L550 300 L550 600 L470 640 Z" fill="#7a7a75"/>
+    <path d="M250 300 L330 340 L330 640 L250 600 Z" fill="url(#layers)"/>
+    <path d="M330 340 L470 340 L470 640 L330 640 Z" fill="url(#layers)"/>
+    <path d="M470 340 L550 300 L550 600 L470 640 Z" fill="url(#layers)"/>
+    <path d="M268 300 L336 268 L464 268 L532 300 L464 332 L336 332 Z" fill="#2a2a28"/>
+  </g>
+  <rect x="330" y="120" width="22" height="190" rx="4" fill="#f2c200" transform="rotate(-12 341 270)"/>
+  <rect x="388" y="100" width="18" height="200" rx="9" fill="#1b1b1b" transform="rotate(4 397 260)"/>
+  <rect x="440" y="140" width="22" height="160" rx="4" fill="#2e7d32" transform="rotate(14 451 280)"/>
+</svg>

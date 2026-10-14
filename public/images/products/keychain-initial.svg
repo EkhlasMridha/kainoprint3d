@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Initial letter keychain mockup">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="75%"><stop offset="0" stop-color="#f3f3f0"/><stop offset="1" stop-color="#e1e1dd"/></radialGradient>
+    <pattern id="layers" width="8" height="3" patternUnits="userSpaceOnUse"><rect width="8" height="1" fill="#000" fill-opacity=".09"/></pattern>
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="170%"><feDropShadow dx="0" dy="18" stdDeviation="16" flood-opacity=".2"/></filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <ellipse cx="410" cy="640" rx="190" ry="26" fill="#000" opacity=".08"/>
+  <g filter="url(#sh)" transform="rotate(-6 400 420)">
+    <circle cx="400" cy="170" r="58" fill="none" stroke="#b5b5b0" stroke-width="12"/>
+    <path d="M300 250h90l120 280V250h80v360h-90L380 330v280h-80z" fill="#7e1d1d" transform="translate(0 12)"/>
+    <path d="M300 250h90l120 280V250h80v360h-90L380 330v280h-80z" fill="#c62828"/>
+    <path d="M300 250h90l120 280V250h80v360h-90L380 330v280h-80z" fill="url(#layers)"/>
+    <circle cx="340" cy="285" r="14" fill="url(#bg)"/>
+  </g>
+</svg>

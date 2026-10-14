@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" role="img" aria-label="Desk organizer with drawer mockup">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="30%" r="85%"><stop offset="0" stop-color="#f5f5f2"/><stop offset="1" stop-color="#e0e0dc"/></radialGradient>
+    <pattern id="layers" width="8" height="4" patternUnits="userSpaceOnUse"><rect width="8" height="1" fill="#000" fill-opacity=".07"/></pattern>
+    <filter id="sh" x="-20%" y="-20%" width="140%" height="160%"><feDropShadow dx="0" dy="22" stdDeviation="20" flood-opacity=".18"/></filter>
+  </defs>
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <g filter="url(#sh)">
+    <!-- body -->
+    <path d="M140 330 L400 230 L660 330 L400 430 Z" fill="#f7f7f4"/>
+    <path d="M140 330 L400 430 L400 640 L140 540 Z" fill="#dededa"/>
+    <path d="M400 430 L660 330 L660 540 L400 640 Z" fill="#cbcbc6"/>
+    <path d="M140 330 L400 430 L400 640 L140 540 Z" fill="url(#layers)"/>
+    <path d="M400 430 L660 330 L660 540 L400 640 Z" fill="url(#layers)"/>
+    <!-- top compartments -->
+    <path d="M175 332 L295 286 L400 326 L280 372 Z" fill="#e6e6e2"/>
+    <path d="M318 278 L400 246 L625 332 L543 364 Z" fill="#e6e6e2"/>
+    <path d="M300 380 L520 296 L560 311 L340 395 Z" fill="#e6e6e2"/>
+    <!-- drawer pulled out (left face) -->
+    <path d="M110 470 L330 555 L330 615 L110 530 Z" fill="#1b1b1b"/>
+    <path d="M110 470 L170 447 L390 532 L330 555 Z" fill="#2c2c2c"/>
+    <path d="M330 555 L390 532 L390 592 L330 615 Z" fill="#111"/>
+    <rect x="205" y="520" width="50" height="10" rx="5" fill="#9a9a96" transform="rotate(21 230 525)"/>
+    <!-- contents -->
+    <rect x="220" y="300" width="80" height="12" rx="6" fill="#1e4fa3" transform="rotate(-21 260 306)"/>
+    <circle cx="470" cy="300" r="18" fill="#c62828"/>
+    <rect x="380" y="335" width="110" height="10" rx="5" fill="#1b1b1b" transform="rotate(-21 435 340)"/>
+  </g>
+</svg>

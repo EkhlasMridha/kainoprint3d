@@ -1,0 +1,110 @@
+import type { EstimatorCommonConfig, KeychainConfig, OrganizerConfig } from "./types";
+
+/** Owner-editable defaults (Admin → Settings → Estimators). Prices are in poisha. */
+
+export const DEFAULT_ESTIMATOR_COMMON: EstimatorCommonConfig = {
+  materials: [
+    { key: "pla", label: "PLA", description: "Smooth matte finish. Great for most decorative items.", density: 1.24, surchargePct: 0, active: true },
+    { key: "pla_silk", label: "Silk PLA", description: "Shiny, metallic-looking finish.", density: 1.24, surchargePct: 0.15, active: true },
+    { key: "petg", label: "PETG", description: "Tougher and more heat-resistant. Good for daily-use items.", density: 1.27, surchargePct: 0.1, active: true },
+    { key: "tpu", label: "TPU (flexible)", description: "Soft, rubber-like and bendable.", density: 1.21, surchargePct: 0.35, active: true },
+  ],
+  colors: [
+    { key: "black", label: "Black", hex: "#111111" },
+    { key: "white", label: "White", hex: "#f5f5f4" },
+    { key: "grey", label: "Grey", hex: "#8a8a8a" },
+    { key: "red", label: "Red", hex: "#c62828" },
+    { key: "blue", label: "Blue", hex: "#1e4fa3" },
+    { key: "green", label: "Green", hex: "#2e7d32" },
+    { key: "yellow", label: "Yellow", hex: "#f2c200" },
+    { key: "pink", label: "Pink", hex: "#e58fb3" },
+    { key: "gold", label: "Silk Gold", hex: "#c9a227" },
+  ],
+  quantityTiers: [
+    { minQty: 10, discountPct: 0.05 },
+    { minQty: 25, discountPct: 0.1 },
+    { minQty: 50, discountPct: 0.15 },
+    { minQty: 100, discountPct: 0.2 },
+  ],
+  roundingStep: 5,
+  range: { lowPct: 0.1, highPct: 0.15, reviewHighPct: 0.35 },
+  rushPct: 0.25,
+  rushMinimumFee: 10000,
+  leadTimeDays: { min: 3, max: 5 },
+  rushLeadTimeDays: { min: 1, max: 2 },
+  solidityFactor: 0.75,
+  maxUploadMb: 25,
+};
+
+export const DEFAULT_KEYCHAIN_CONFIG: KeychainConfig = {
+  types: [
+    { key: "text", label: "Name / text", description: "Your name or a short word in a bold, clean font.", basePrice: 12000, fillFactor: 0.55, needsReview: false, requiresDesignFee: false },
+    { key: "shape", label: "Shape", description: "A simple shape — heart, star, house, initial and more.", basePrice: 13000, fillFactor: 0.65, needsReview: false, requiresDesignFee: false },
+    { key: "logo", label: "Logo", description: "Your business or club logo, converted into a 3D keychain.", basePrice: 15000, fillFactor: 0.6, needsReview: true, requiresDesignFee: true },
+    { key: "custom", label: "Custom design", description: "Anything you can imagine — we design it with you.", basePrice: 18000, fillFactor: 0.7, needsReview: true, requiresDesignFee: true },
+  ],
+  limits: {
+    width: { min: 20, max: 120 },
+    height: { min: 10, max: 80 },
+    thickness: { min: 2, max: 8 },
+    maxTextLength: 20,
+    maxColors: 4,
+    maxQuantity: 500,
+  },
+  includedGrams: 6,
+  pricePerExtraGram: 600,
+  includedCharacters: 8,
+  pricePerExtraCharacter: 500,
+  extraColorCharge: 3000,
+  doubleSidedFee: 3000,
+  personalizationFee: 0,
+  designFee: 30000,
+  minimumOrderPrice: 15000,
+  hardware: [
+    { key: "split_ring", label: "Split key ring", price: 0 },
+    { key: "ball_chain", label: "Ball chain", price: 1000 },
+    { key: "lobster", label: "Lobster clasp with chain", price: 2500 },
+    { key: "carabiner", label: "Mini carabiner", price: 3500 },
+    { key: "none", label: "No hardware", price: 0 },
+  ],
+  gramsPerHour: 12,
+  floor: { perUnit: 4000, perGram: 250, perHour: 1500 },
+};
+
+export const DEFAULT_ORGANIZER_CONFIG: OrganizerConfig = {
+  limits: {
+    width: { min: 60, max: 250 },
+    length: { min: 60, max: 250 },
+    height: { min: 30, max: 150 },
+    maxCompartments: 12,
+    maxPenHolders: 4,
+    maxDrawers: 3,
+    maxColors: 3,
+    maxQuantity: 50,
+  },
+  geometry: { wallMm: 2, baseMm: 2, dividerHeightFactor: 0.85, solidity: 0.85 },
+  gramsPerHour: 20,
+  pricePerGram: 350,
+  pricePerPrintHour: 3000,
+  baseDesignFee: 15000,
+  designAssistanceFee: 50000,
+  compartmentFee: 2000,
+  extraColorCharge: 8000,
+  features: {
+    penHolder: { grams: 18, hours: 1, price: 6000 },
+    phoneStand: { grams: 35, hours: 1.5, price: 12000 },
+    drawer: { grams: 60, hours: 3, price: 25000 },
+    cableManagement: { grams: 12, hours: 0.5, price: 6000 },
+  },
+  assemblyFeePerUnit: 5000,
+  customTextFee: 5000,
+  customLogoFee: 10000,
+  minimumOrderPrice: 50000,
+  presets: [
+    { key: "minimal", name: "Minimal desk organizer", description: "A clean tray with three compartments for everyday essentials.", width: 160, length: 100, height: 50, compartments: 3, penHolders: 0, phoneStand: false, drawers: 0, cableManagement: false },
+    { key: "phone", name: "Organizer with phone stand", description: "Keep your phone upright next to pens and small items.", width: 180, length: 110, height: 70, compartments: 2, penHolders: 1, phoneStand: true, drawers: 0, cableManagement: true },
+    { key: "multi", name: "Multi-compartment organizer", description: "Six compartments for stationery, cards and accessories.", width: 220, length: 140, height: 70, compartments: 6, penHolders: 2, phoneStand: false, drawers: 0, cableManagement: false },
+    { key: "drawer", name: "Custom drawer organizer", description: "Top tray plus a pull-out drawer for hidden storage.", width: 200, length: 150, height: 110, compartments: 4, penHolders: 1, phoneStand: false, drawers: 1, cableManagement: false },
+  ],
+  floor: { perUnit: 10000, perGram: 220, perHour: 1500 },
+};
